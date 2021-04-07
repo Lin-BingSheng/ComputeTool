@@ -1,0 +1,107 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>计算</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+<body>
+    <div>
+        <fieldset>
+            <legend>外直径或者外半径</legend>
+            <label>外半径</label>
+            <input type="text" id="oR" name="oR" value="" /><br />
+            <label>外值径</label>
+            <input type="text" id="oD" name="oD" value="" /><br />
+        </fieldset>
+
+        <fieldset>
+            <legend>内直径或者内半径</legend>
+            <label>内半径</label>
+            <input type="text" id="iR" name="iR" value="" /><br />
+            <label>内直径</label>
+            <input type="text" id="iD" name="iD" value="" /><br />
+        </fieldset>
+        <fieldset>
+            <legend>外弧长或者需求的个数</legend>
+            <label>外弧长</label>
+            <input type="text" id="oArcLength" name="oArcLength" value="" /><br />
+            <label>需要的个数</label>
+            <input type="text" id="amount" name="amount" value="" /><br />
+        </fieldset>
+
+    
+        <button type="button" onclick="Compute()">计算</button>
+        <div style="display:none" id="resultDiv">
+
+            <br />
+            <label>长</label>
+            <span id="length">0</span>
+            <br />
+            <label>短</label>
+            <span id="short">0</span>
+            <br />
+            <label>高</label>
+            <span id="height">0</span>
+            <br />
+        </div>
+
+    </div>
+    <script>
+        function Compute() {
+            //if ($("#amount").val().length>0) {
+            //    if ($("#iR").val() - 0 > 0 || $("#oR").val() - 0 > 0) {
+
+            //        var iR = $("#iR").val() - 0;
+            //        var oR = $("#oR").val() - 0;
+            //        var amount = $("#amount").val() - 0;
+            //        alert(iR + "," + oR + "," + amount);
+            //    } else {
+            //        alert("请输入内半径或者外半径");
+            //    }
+            //} else {
+            //    alert("请输入需要的个数");
+            //}
+            var iR = parseFloat($("#iR").val() - 0.0);
+            var oR = parseFloat($("#oR").val() - 0.0);
+            var amount = $("#amount").val() - 0.0;
+            var iD = parseFloat($("#iD").val() - 0.0);
+            var oD = parseFloat($("#oD").val() - 0.0);
+            var oArcLength = parseFloat($("#oArcLength").val() - 0);
+        
+            if (iR>0) {
+                iD = 2 * iR;
+            }
+            if (oR>0) {
+                oD = 2 * oR;
+            }
+            if (oD>0) {
+                oR = oD / 2;
+            }
+            if (iD > 0) {
+                iR = iD / 2;
+            }
+            if (amount > 0) {
+                oArcLength = Math.PI * oD / amount;
+            }
+            if (oArcLength>0) {
+                amount = Math.PI * oD / oArcLength;
+            }
+
+            $("#iR").val(iR);
+            $("#oR").val(oR);
+            $("#iD").val(iD);
+            $("#oD").val(oD);
+            $("#oArcLength").val(oArcLength);
+            $("#amount").val(amount);
+            debugger;
+            var length = Math.tan(Math.PI / amount) * oD;
+            var short = Math.sin(Math.PI / amount) * iD;
+            var height = oR - Math.cos(Math.PI / amount) * iR;
+            $("#length").text(length);
+            $("#short").text(short);
+            $("#height").text(height);
+            $("#resultDiv").show();
+        }
+    </script>
+</body>
+</html>
